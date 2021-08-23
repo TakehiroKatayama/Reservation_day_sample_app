@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'days/index'
   get 'days/show'
-  post 'reservations/update' => 'reservations#update'
+  patch '/reservations/:id', to: 'reservations#cancel'
   root 'reservations#index'
   resources :reservations
 end
