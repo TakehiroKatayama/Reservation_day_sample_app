@@ -1,4 +1,6 @@
 <p>予約日 : <%= reservation.day.reservation_date%></p>
-<p>予約人数 : <%= reservation.count_person%></p>
+<p>予約人数 : 
+  <%= reservation.count_person == 0 ? "キャンセル済" : reservation.count_person%>
+</p>
 <%= link_to 'キャンセル', "/reservations/#{reservation.id}", method: :patch %>
-<%= link_to "予約変更, edit_reservation_path(reservation) %>
+<%= link_to "予約変更", edit_reservation_path(reservation) %>
