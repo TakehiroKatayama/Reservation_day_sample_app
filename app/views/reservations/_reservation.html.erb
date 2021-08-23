@@ -1,2 +1,3 @@
 <p>予約日 : <%= reservation.day.reservation_date%></p>
 <p>予約人数 : <%= reservation.count_person%></p>
+<%= link_to "キャンセル", edit_reservation_path(reservation) %>

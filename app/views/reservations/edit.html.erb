@@ -1,2 +1,7 @@
-<h1>Reservations#edit</h1>
-<p>Find me in app/views/reservations/edit.html.erb</p>
+<h2>キャンセル人数</h2>
+<%= @reservation.day.reservation_date%>
+<p>現在の予約人数 : <%= @reservation.count_person%> </p>
+<%= form_with model: @reservation, local: true do |f| %>
+  <p>キャンセルする人数 ： <%= f.hidden_field :count_person, value: @reservation.count_person %><%#= f.text_field :count_person %></p>
+  <%= f.submit "キャンセルする" %>
+<% end %>

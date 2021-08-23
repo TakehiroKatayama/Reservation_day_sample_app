@@ -23,9 +23,20 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @reservation = Reservation.find(params[:id])
+  end
 
-  def update; end
+  def update
+    @reservation = Reservation.find(params[:id])
+    new_seats = reservation_params[:count_person].to_i # @reservation.count_person
+    new_seat = @reservation.day.capacity
+    neww = new_seats + new_seat
+    @reservation.day.update!(capacity: neww)
+    new_count_person = @reservation.count_person - @reservation.count_person
+    @reservation.update!(count_person: new_count_person) # (count_person: new_count_person)
+    redirect_to action: :index
+  end
 
   private
 
