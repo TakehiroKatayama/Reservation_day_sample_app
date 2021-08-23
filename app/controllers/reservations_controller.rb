@@ -28,16 +28,13 @@ class ReservationsController < ApplicationController
   end
 
   def update
-    # キャンセル処理を行う予約を呼び出す
-    @reservation = Reservation.find(params[:id])
-    # キャンセル人数を予約日のCapacityにプラスする
-    new_seats = reservation_params[:count_person].to_i + @reservation.day.capacity
-    # 予約日のCapacityを更新
-    @reservation.day.update!(capacity: new_seats)
-    # 予約の人数を0にする
-    new_count_person = @reservation.count_person - @reservation.count_person
-    # 予約人数を0人で更新
-    @reservation.update!(count_person: new_count_person)
+    reservation = Reservation.find(params[:id])
+    # binding.pry
+    # day_id = Day.find_by(reservation_date: params[:reservation][:day_id]).id
+
+    reservation.update!(reservation_params)
+    seats = reservation.day.capacity - reservation_params[:count_person].to_i
+    reservation.day.update(capacity: seats)
     redirect_to action: :index
   end
 
