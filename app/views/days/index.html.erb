@@ -3,8 +3,8 @@
 <%= month_calendar events: @days do |date, days| %>
   <%= date.day %>
   <% days.each do |day| %>
-    <div>
-      <%= day.capacity %>
-    </div>
+    <%= link_to day_path(day) do%>
+      <p>予約可能人数 : <%= day.capacity %></p>
+    <% end %>
   <% end %>
 <% end %>

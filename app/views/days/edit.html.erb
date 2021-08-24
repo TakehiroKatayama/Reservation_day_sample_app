@@ -1,0 +1,5 @@
+<h2>予約可能人数変更</h2>
+<%= form_with model: @day, local: true do |f| %>
+  <p>予約可能人数：<%= f.text_field :capacity %></p>
+  <%= f.submit "送信" %>
+<% end %>

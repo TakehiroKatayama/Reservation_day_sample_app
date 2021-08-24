@@ -7,9 +7,19 @@ class DaysController < ApplicationController
     @day = Day.find(params[:id])
   end
 
+  def edit
+    @day = Day.find(params[:id])
+  end
+
+  def update
+    @day = Day.find(params[:id])
+    @day.update(day_params)
+    redirect_to action: :index
+  end
+
   private
 
-  def shop_params
-    params.require(:day).permit(:capacity, :start_time)
+  def day_params
+    params.require(:day).permit(:capacity)
   end
 end

@@ -1,2 +1,4 @@
-<h1>Days#show</h1>
-<p>Find me in app/views/days/show.html.erb</p>
+<h1>予約可能人数</h1>
+<p><%= @day.start_time%></p>
+<p>残りの予約人数 : <%= @day.capacity%></p>
+<%= link_to "編集", edit_day_path(@day) %>
