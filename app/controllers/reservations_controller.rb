@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   def index
-    @reservations = Reservation.all
+    @reservations = Reservation.all.order(id: 'DESC')
+    @days = Day.all
   end
 
   def new
@@ -16,7 +17,7 @@ class ReservationsController < ApplicationController
     if seats >= 0
       # 変更されたshopのcapacityの値を更新
       @reservation.day.update(capacity: seats)
-      redirect_to days_index_path
+      redirect_to days_path
     else
       # キャパシティがマイナスになる場合はfalse
       redirect_to action: :index

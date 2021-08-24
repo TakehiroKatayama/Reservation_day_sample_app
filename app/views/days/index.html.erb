@@ -1,5 +1,5 @@
 <h2>予約可能人数</h2>
-<%= render @days %>
+<%#= render @days %>
 <%= month_calendar events: @days do |date, days| %>
   <%= date.day %>
   <% days.each do |day| %>
@@ -8,3 +8,5 @@
     <% end %>
   <% end %>
 <% end %>
+<p><%= link_to "戻る", :back %></p>
+<p><%= link_to "予約一覧", reservations_path%></p>
