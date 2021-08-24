@@ -29,12 +29,10 @@ class ReservationsController < ApplicationController
 
   def update
     reservation = Reservation.find(params[:id])
-    # binding.pry
-    # day_id = Day.find_by(reservation_date: params[:reservation][:day_id]).id
-
+    current_person = reservation.count_person
     reservation.update!(reservation_params)
-    seats = reservation.day.capacity - reservation_params[:count_person].to_i
-    reservation.day.update(capacity: seats)
+    edit_capacity = reservation.day.capacity - (reservation_params[:count_person].to_i - current_person)
+    reservation.day.update(capacity: edit_capacity)
     redirect_to action: :index
   end
 
@@ -55,6 +53,6 @@ class ReservationsController < ApplicationController
   private
 
   def reservation_params
-    params.require(:reservation).permit(:count_person)
+    params.require(:reservation).permit(:count_person, :day_id)
   end
 end
