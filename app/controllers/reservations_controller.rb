@@ -8,7 +8,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    day_id = Day.find_by(reservation_date: params[:reservation][:day_id]).id
+    day_id = Day.find_by(start_time: params[:reservation][:day_id]).id
     @reservation = Reservation.create!(reservation_params.merge(day_id: day_id))
     # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
     seats = @reservation.day.capacity - reservation_params[:count_person].to_i

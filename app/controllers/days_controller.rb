@@ -10,6 +10,6 @@ class DaysController < ApplicationController
   private
 
   def shop_params
-    params.require(:day).permit(:capacity, :reservation_day)
+    params.require(:day).permit(:capacity, :start_time)
   end
 end
