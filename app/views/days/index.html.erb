@@ -6,6 +6,9 @@
     <%= link_to day_path(day) do%>
       <p>予約可能人数 : <%= day.capacity %></p>
     <% end %>
+    <%= link_to "/reservation_of_day/#{day.id}" do%>
+      <p>予約件数 : <%= day.reservations.count%></p>
+    <% end %>
   <% end %>
 <% end %>
 <p><%= link_to "戻る", :back %></p>

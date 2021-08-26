@@ -7,6 +7,11 @@ class DaysController < ApplicationController
     @day = Day.find(params[:id])
   end
 
+  def reservation_of_day
+    @day = Day.find(params[:id])
+    @reservations = @day.reservations
+  end
+
   def edit
     @day = Day.find(params[:id])
   end
