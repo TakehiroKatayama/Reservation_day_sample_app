@@ -6,6 +6,7 @@ class ReservationsController < ApplicationController
 
   def new
     @reservation = Reservation.new
+    session[:previous_url] = request.referer
   end
 
   def create
@@ -17,7 +18,7 @@ class ReservationsController < ApplicationController
     if seats >= 0
       # 変更されたshopのcapacityの値を更新
       @reservation.day.update(capacity: seats)
-      redirect_to days_path
+      redirect_to session[:previous_url]
     else
       # キャパシティがマイナスになる場合はfalse
       redirect_to action: :index
@@ -26,6 +27,7 @@ class ReservationsController < ApplicationController
 
   def edit
     @reservation = Reservation.find(params[:id])
+    session[:previous_url] = request.referer
   end
 
   def update
@@ -34,7 +36,7 @@ class ReservationsController < ApplicationController
     reservation.update!(reservation_params)
     edit_capacity = reservation.day.capacity - (reservation_params[:count_person].to_i - current_person)
     reservation.day.update(capacity: edit_capacity)
-    redirect_to action: :index
+    redirect_to session[:previous_url]
   end
 
   def cancel
@@ -48,7 +50,7 @@ class ReservationsController < ApplicationController
     new_count_person = @reservation.count_person - @reservation.count_person
     # 予約人数を0人で更新
     @reservation.update!(count_person: new_count_person)
-    redirect_to action: :index
+    redirect_back(fallback_location: root_path)
   end
 
   private
