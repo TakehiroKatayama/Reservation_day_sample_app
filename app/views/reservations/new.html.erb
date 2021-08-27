@@ -1,6 +1,18 @@
 <h2>新規予約フォーム</h2>
-<%= form_with model: @reservation, local: true do |f| %>
-  <p>来店日 : <%= f.date_field :day_id %></p>
-  <p>来店人数 ： <%= f.text_field :count_person %></p>
-  <%= f.submit "送信" %>
+<% if user_signed_in? %>
+  <%= form_with model: @reservation, local: true do |f| %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <p>メールアドレス : <%= f.email_field :email ,:value => current_user.email%></p>
+    <p>来店日 : <%= f.date_field :day_id %></p>
+    <p>来店人数 ： <%= f.text_field :count_person %></p>
+    <%= f.submit "送信" %>
+  <% end %>
+<% else %>
+  <%= form_with model: @reservation, local: true do |f| %>
+    <%= f.hidden_field :user_id, :value => 1 %>
+    <p>メールアドレス : <%= f.email_field :email %></p>
+    <p>来店日 : <%= f.date_field :day_id %></p>
+    <p>来店人数 ： <%= f.text_field :count_person %></p>
+    <%= f.submit "送信" %>
+  <% end %>
 <% end %>
