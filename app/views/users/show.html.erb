@@ -6,6 +6,7 @@
   <p>予約日 : <%= reservation.day.start_time%></p>
   <p>予約番号 : <%= reservation.id%></p>
   <p>予約人数 : 
-    <%= reservation.count_person == 0 ? "キャンセル済" : reservation.count_person%>
+    <%= reservation.count_person == 0 ? "×" : reservation.count_person%>
   </p>
+  <p>ステータス : <%= reservation.status_i18n %></p>
 <% end %>

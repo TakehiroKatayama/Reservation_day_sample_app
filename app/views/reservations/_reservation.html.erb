@@ -6,4 +6,4 @@
 <p>予約者メールアドレス : <%= reservation.email%></p>
 <p>ステータス : <%= reservation.status_i18n %></p>
 <%= link_to 'キャンセル', "/reservations/#{reservation.id}", method: :patch, data: {confirm: "本当にキャンセルしてもよろしいですか?"} %>
-<%= link_to "予約変更", edit_reservation_path(reservation) %>
+<%= link_to "変更", edit_reservation_path(reservation) %>
