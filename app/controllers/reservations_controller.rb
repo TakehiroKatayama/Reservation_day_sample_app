@@ -35,8 +35,12 @@ class ReservationsController < ApplicationController
     current_person = reservation.count_person
     reservation.update!(reservation_params)
     edit_capacity = reservation.day.capacity - (reservation_params[:count_person].to_i - current_person)
-    reservation.day.update(capacity: edit_capacity)
-    redirect_to session[:previous_url]
+    if edit_capacity >= 0
+      reservation.day.update(capacity: edit_capacity)
+      redirect_to session[:previous_url]
+    else
+      redirect_to action: :index
+    end
   end
 
   def cancel
