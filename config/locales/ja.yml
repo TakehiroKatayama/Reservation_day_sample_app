@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    models:
+      reservation: 予約
+    attributes:
+      reservation:
+        status: ステータス

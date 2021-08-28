@@ -1,0 +1,7 @@
+ja:
+  enums:
+    reservation:
+      status:
+        visiting: '来店予約'
+        visited: '来店済み'
+        cancel: 'キャンセル済'

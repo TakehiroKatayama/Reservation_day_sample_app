@@ -39,7 +39,7 @@ class ReservationsController < ApplicationController
       reservation.day.update(capacity: edit_capacity)
       redirect_to session[:previous_url]
     else
-      redirect_to action: :index
+      redirect_to root_path
     end
   end
 
@@ -60,6 +60,6 @@ class ReservationsController < ApplicationController
   private
 
   def reservation_params
-    params.require(:reservation).permit(:count_person, :email, :day_id, :user_id)
+    params.require(:reservation).permit(:count_person, :email, :day_id, :user_id, :status)
   end
 end
