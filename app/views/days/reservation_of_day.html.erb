@@ -2,7 +2,8 @@
 <% @reservations.each do |reservation| %>
   <p>予約番号 : <%= reservation.id%></p>
   <p>予約人数 : 
-    <%= reservation.count_person == 0 ? "×" : reservation.count_person%>
+    <%#= reservation.count_person == 0 ? "×" : reservation.count_person%>
+    <%= reservation.count_person%>
   </p>
   <p>ステータス : <%= reservation.status_i18n %></p>
   <%= link_to "予約変更", edit_reservation_path(reservation) %>

@@ -7,7 +7,6 @@ class ReservationsController < ApplicationController
   def new
     @reservation = Reservation.new
     # session[:previous_url] = request.referer
-    redirect_to action: :index
   end
 
   def create
@@ -53,9 +52,9 @@ class ReservationsController < ApplicationController
     # 予約日のCapacityを更新
     @reservation.day.update!(capacity: new_seats)
     # 予約の人数を0にする
-    new_count_person = @reservation.count_person - @reservation.count_person
-    # 予約人数を0人で,ステータスをキャンセル済に更新
-    @reservation.update!(count_person: new_count_person, status: 2)
+    # new_count_person = @reservation.count_person - @reservation.count_person
+    # ステータスをキャンセル済に更新
+    @reservation.update!(status: 2)
     redirect_back(fallback_location: root_path)
   end
 
