@@ -1,2 +1,0 @@
-class Capacity < ApplicationRecord
-end
