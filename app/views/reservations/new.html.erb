@@ -1,3 +1,4 @@
+<%= render "layouts/error_messages" %>
 <h2>新規予約フォーム</h2>
 <% if user_signed_in? %>
   <%= form_with model: @reservation, local: true do |f| %>

@@ -18,10 +18,11 @@ class ReservationsController < ApplicationController
       # 変更されたshopのcapacityの値を更新
       @reservation.day.update!(capacity: seats)
       # redirect_to session[:previous_url]
-      redirect_to root_path
+      redirect_to root_path, notice: '予約が完了しました'
     end
   rescue StandardError => e
-    redirect_to action: :index
+    flash[:alert] = "・予約ができませんでした。\n・備考以外空白なく入力してください。\n・来店日は明日以降の定休日以外の日付を入力してください。\n・それでもご予約できない場合は店舗までご連絡下さい。"
+    redirect_to action: :new
   end
 
   def edit
@@ -37,10 +38,11 @@ class ReservationsController < ApplicationController
       edit_capacity = reservation.day.capacity - (reservation_params[:count_person].to_i - current_person)
       reservation.day.update!(capacity: edit_capacity)
       # redirect_to session[:previous_url]
-      redirect_to root_path
+      redirect_to root_path, notice: '予約の変更が完了しました'
     end
   rescue StandardError => e
-    redirect_to action: :index
+    flash[:alert] = '予約の変更ができませんでした'
+    redirect_to action: :edit
   end
 
   def day_edit
@@ -65,9 +67,10 @@ class ReservationsController < ApplicationController
       # 更新した予約に紐づけした日程のキャパシティーを更新する
       update_reservation.day.update!(capacity: edit_capacity)
       # redirect_to session[:previous_url]
-      redirect_to root_path
+      redirect_to root_path, notice: '予約日程の変更が完了しました'
     end
   rescue StandardError => e
+    flash[:alert] = '予約日程の変更ができませんでした'
     redirect_to action: :index
   end
 
@@ -81,9 +84,11 @@ class ReservationsController < ApplicationController
       @reservation.day.update!(capacity: new_seats)
       # ステータスをキャンセル済に更新
       @reservation.update!(status: 2)
+      flash[:notice] = 'キャンセルが完了しました'
       redirect_back(fallback_location: root_path)
     end
   rescue StandardError => e
+    flash[:alert] = 'キャンセルができませんでした'
     redirect_to action: :index
   end
 
