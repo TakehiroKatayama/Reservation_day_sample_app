@@ -19,9 +19,9 @@ class ReservationsController < ApplicationController
       @reservation.day.update!(capacity: seats)
       # redirect_to session[:previous_url]
       redirect_to root_path
-    rescue StandardError => e
-      redirect_to action: :index
     end
+  rescue StandardError => e
+    redirect_to action: :index
   end
 
   def edit
@@ -57,7 +57,7 @@ class ReservationsController < ApplicationController
     reservation.day.update(capacity: return_capacity)
     # フォームに送信されたday_idの値を更新する
     reservation.update!(reservation_params)
-    # day_idを更新した予約を呼び出す
+    # day_idを更新した予約���呼び出す
     update_reservation = Reservation.find(params[:id])
     # 更新した予約に紐づく日程のキャパシティーから予約人数をマイナスする
     edit_capacity = update_reservation.day.capacity - update_reservation.count_person
@@ -68,7 +68,7 @@ class ReservationsController < ApplicationController
   end
 
   def cancel
-    # キャンセル処理を行う予約を呼び出す
+    # キャ���セル処理を行う予約を呼び出す
     @reservation = Reservation.find(params[:id])
     # キャンセル人数を予約日のCapacityにプラスする
     new_seats = @reservation.count_person + @reservation.day.capacity
