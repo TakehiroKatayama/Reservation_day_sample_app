@@ -15,13 +15,13 @@ class ReservationsController < ApplicationController
     # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
     seats = @reservation.day.capacity - reservation_params[:count_person].to_i
     # 計算されたキャパシティーが0以上ならtrue
-    if seats >= 0
-      # 変更されたshopのcapacityの値を更新
-      @reservation.day.update(capacity: seats)
-      # redirect_to session[:previous_url]
-    else
-      # キャパシティがマイナスになる場合はfalse
-    end
+    # if seats >= 0
+    # 変更されたshopのcapacityの値を更新
+    @reservation.day.update(capacity: seats)
+    # redirect_to session[:previous_url]
+    # else
+    # キャパシティがマイナスになる場合はfalse
+    # end
     redirect_to action: :index
   end
 
@@ -50,14 +50,20 @@ class ReservationsController < ApplicationController
   end
 
   def day_update
+    # 日程変更をする予約を呼び出す
     reservation = Reservation.find(params[:id])
-    current_person = reservation.count_person
-    cange = reservation.day.capacity + reservation.count_person
-    reservation.day.update(capacity: cange)
+    # 予約されていた人数分のキャパシティーを戻す
+    return_capacity = reservation.day.capacity + reservation.count_person
+    # 予約の日程のキャパシティーを更新する
+    reservation.day.update(capacity: return_capacity)
+    # フォームに送信されたday_idの値を更新する
     reservation.update!(reservation_params)
-    reservation1 = Reservation.find(params[:id])
-    edit_capacity = reservation1.day.capacity - reservation1.count_person
-    reservation1.day.update(capacity: edit_capacity)
+    # day_idを更新した予約を呼び出す
+    update_reservation = Reservation.find(params[:id])
+    # 更新した予約に紐づく日程のキャパシティーから予約人数をマイナスする
+    edit_capacity = update_reservation.day.capacity - update_reservation.count_person
+    更新した予約に紐づく日程のキャパシティーを更新する
+    update_reservation.day.update(capacity: edit_capacity)
     # redirect_to session[:previous_url]
     redirect_to root_path
   end
@@ -71,7 +77,7 @@ class ReservationsController < ApplicationController
     @reservation.day.update!(capacity: new_seats)
     # 予約の人数を0にする
     # new_count_person = @reservation.count_person - @reservation.count_person
-    # ス��ータスをキャンセル済に更新
+    # ステータスをキャンセル済に更新
     @reservation.update!(status: 2)
     redirect_back(fallback_location: root_path)
   end
