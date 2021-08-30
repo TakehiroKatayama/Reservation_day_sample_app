@@ -27,6 +27,7 @@ class ReservationsController < ApplicationController
 
   def edit
     @reservation = Reservation.find(params[:id])
+    @days = Day.all
     # session[:previous_url] = request.referer
   end
 
