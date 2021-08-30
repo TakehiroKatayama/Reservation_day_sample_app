@@ -54,7 +54,7 @@ class ReservationsController < ApplicationController
       reservation = Reservation.find(params[:id])
       # 予約されていた人数分のキャパシティーを戻す
       return_capacity = reservation.day.capacity + reservation.count_person
-      # 予約の日程のキャパシティーを更新する
+      # 予約の日程のキャ��シティーを更新する
       reservation.day.update!(capacity: return_capacity)
       # フォームに送信されたday_idの値を更新する
       reservation.update!(reservation_params)
@@ -72,17 +72,19 @@ class ReservationsController < ApplicationController
   end
 
   def cancel
-    # キャ���セル処理を行う予約を呼び出す
-    @reservation = Reservation.find(params[:id])
-    # キャンセル人数を予約日のCapacityにプラスする
-    new_seats = @reservation.count_person + @reservation.day.capacity
-    # 予約日のCapacityを更新
-    @reservation.day.update!(capacity: new_seats)
-    # 予約の人数を0にする
-    # new_count_person = @reservation.count_person - @reservation.count_person
-    # ステータスをキャンセル済に更新
-    @reservation.update!(status: 2)
-    redirect_back(fallback_location: root_path)
+    ActiveRecord::Base.transaction do
+      # キャンセル処理を行う予約を呼び出す
+      @reservation = Reservation.find(params[:id])
+      # キャンセル人数を予約日のCapacityにプラスする
+      new_seats = @reservation.count_person + @reservation.day.capacity
+      # 予約日のCapacityを更新
+      @reservation.day.update!(capacity: new_seats)
+      # ステータスをキャンセル済に更新
+      @reservation.update!(status: 2)
+      redirect_back(fallback_location: root_path)
+    end
+  rescue StandardError => e
+    redirect_to action: :index
   end
 
   private
