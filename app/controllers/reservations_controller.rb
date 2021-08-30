@@ -10,19 +10,18 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    day_id = Day.find_by(start_time: params[:reservation][:day_id]).id
-    @reservation = Reservation.create!(reservation_params.merge(day_id: day_id))
-    # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
-    seats = @reservation.day.capacity - reservation_params[:count_person].to_i
-    # 計算されたキャパシティーが0以上ならtrue
-    # if seats >= 0
-    # 変更されたshopのcapacityの値を更新
-    @reservation.day.update(capacity: seats)
-    # redirect_to session[:previous_url]
-    # else
-    # キャパシティがマイナスになる場合はfalse
-    # end
-    redirect_to action: :index
+    ActiveRecord::Base.transaction do
+      day_id = Day.find_by(start_time: params[:reservation][:day_id]).id
+      @reservation = Reservation.create!(reservation_params.merge(day_id: day_id))
+      # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
+      seats = @reservation.day.capacity - reservation_params[:count_person].to_i
+      # 変更されたshopのcapacityの値を更新
+      @reservation.day.update!(capacity: seats)
+      # redirect_to session[:previous_url]
+      redirect_to root_path
+    rescue StandardError => e
+      redirect_to action: :index
+    end
   end
 
   def edit
