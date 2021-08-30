@@ -27,7 +27,6 @@ class ReservationsController < ApplicationController
 
   def edit
     @reservation = Reservation.find(params[:id])
-    @days = Day.all
     # session[:previous_url] = request.referer
   end
 
@@ -45,6 +44,24 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def day_edit
+    @reservation = Reservation.find(params[:id])
+    @days = Day.all
+  end
+
+  def day_update
+    reservation = Reservation.find(params[:id])
+    current_person = reservation.count_person
+    cange = reservation.day.capacity + reservation.count_person
+    reservation.day.update(capacity: cange)
+    reservation.update!(reservation_params)
+    reservation1 = Reservation.find(params[:id])
+    edit_capacity = reservation1.day.capacity - reservation1.count_person
+    reservation1.day.update(capacity: edit_capacity)
+    # redirect_to session[:previous_url]
+    redirect_to root_path
+  end
+
   def cancel
     # キャンセル処理を行う予約を呼び出す
     @reservation = Reservation.find(params[:id])
@@ -54,7 +71,7 @@ class ReservationsController < ApplicationController
     @reservation.day.update!(capacity: new_seats)
     # 予約の人数を0にする
     # new_count_person = @reservation.count_person - @reservation.count_person
-    # ステータスをキャンセル済に更新
+    # ス��ータスをキャンセル済に更新
     @reservation.update!(status: 2)
     redirect_back(fallback_location: root_path)
   end
