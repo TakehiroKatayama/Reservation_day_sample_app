@@ -1,7 +1,6 @@
-<h2>予約人数変更フォーム</h2>
+<h2>予約日程変更フォーム</h2>
 <%= form_with model: @reservation, url: "/day_edit/#{@reservation.id}", local: true do |f| %>
   <p>予約日 : <%= f.text_field :day_id %></p>
-  <p>ステータス : <%= f.select :status, Reservation.statuses_i18n.invert %></p>
-  <%= f.submit "送信" %>
+  <%= f.submit "更新" %>
 <% end %>
 <%= render @days%>
