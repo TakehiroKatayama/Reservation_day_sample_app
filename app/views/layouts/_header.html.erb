@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
   <%# ログイン時 %>
   <%= "【ログイン中のアドレス】#{current_user.email}" %>
-  <%= link_to "マイページ", user_path(current_user.id)%>
-  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, data: { confirm: "ログアウトしますか？" } %>
+  <%= link_to "マイページ", users_path%>
+  <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
   <%= link_to "Topページ", root_path %>
 <% else %>
   <%# 非ログイン時 %>
