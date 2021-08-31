@@ -1,7 +1,7 @@
-<% if @reservation.errors.any? %>
+<% if model.errors.any? %>
   <div>
     <ul>
-      <% @reservation.errors.full_messages.each do |msg| %>
+      <% model.errors.full_messages.each do |msg| %>
         <li><span style="color: red;"><%= msg %></span></li>
       <% end %>
     </ul>

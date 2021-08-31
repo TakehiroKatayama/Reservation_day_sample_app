@@ -21,7 +21,7 @@ class ReservationsController < ApplicationController
       redirect_to root_path, notice: '予約が完了しました'
     end
   rescue StandardError => e
-    flash[:alert] = "・予約ができませんでした。\n・備考以外空白なく入力してください。\n・来店日は明日以降の定休日以外の日付を入力してください。\n・それでもご予約できない場合は店舗までご連絡下さい。"
+    flash[:alert] = "予約ができませんでした。\n・備考以外空白なく入力してください。\n・来店日は明日以降の定休日以外の日付を入力してください。\n・それでもご予約できない場合は店舗までご連絡下さい。"
     redirect_to action: :new
   end
 
@@ -70,7 +70,7 @@ class ReservationsController < ApplicationController
       redirect_to root_path, notice: '予約日程の変更が完了しました'
     end
   rescue StandardError => e
-    flash[:alert] = '予約日程の変更ができませんでした'
+    flash[:alert] = "予約日程の変更ができませんでした。\n 予約可能な日付のIDを指定してください。"
     redirect_to action: :index
   end
 
