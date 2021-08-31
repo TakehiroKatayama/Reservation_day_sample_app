@@ -1,6 +1,6 @@
 class ReservationsController < ApplicationController
   def index
-    @reservations = Reservation.all.order(id: 'DESC')
+    @reservations = Reservation.includes(:day).order(id: 'DESC')
     @days = Day.all
   end
 
