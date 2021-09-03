@@ -23,4 +23,8 @@ class Reservation < ApplicationRecord
   def start_time_not_monday
     errors.add('予約日はは月曜日を選択できません') if day.start_time.monday?
   end
+
+  def reserved_capacity
+    day.capacity - count_person
+  end
 end

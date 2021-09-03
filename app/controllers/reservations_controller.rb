@@ -6,20 +6,13 @@ class ReservationsController < ApplicationController
 
   def new
     @reservation = Reservation.new
-    # session[:previous_url] = request.referer
   end
 
   def create
     ActiveRecord::Base.transaction do
       day_id = Day.find_by(start_time: params[:reservation][:day_id]).id
       @reservation = Reservation.create!(reservation_params.merge(day_id: day_id))
-      # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
-      seats = @reservation.day.capacity - reservation_params[:count_person].to_i
-      # 変更されたshopのcapacityの値を更新
-
-      @reservation.day.update!(capacity: seats)
-      # binding.pry
-      # redirect_to session[:previous_url]
+      @reservation.day.update!(capacity: @reservation.reserved_capacity)
       redirect_to root_path, notice: '予約が完了しました'
     end
   rescue StandardError => e
@@ -29,7 +22,6 @@ class ReservationsController < ApplicationController
 
   def edit
     @reservation = Reservation.find(params[:id])
-    # session[:previous_url] = request.referer
   end
 
   def update
@@ -39,7 +31,6 @@ class ReservationsController < ApplicationController
       reservation.update!(reservation_params)
       edit_capacity = reservation.day.capacity - (reservation_params[:count_person].to_i - current_person)
       reservation.day.update!(capacity: edit_capacity)
-      # redirect_to session[:previous_url]
       redirect_to root_path, notice: '予約の変更が完了しました'
     end
   rescue StandardError => e
@@ -68,7 +59,6 @@ class ReservationsController < ApplicationController
       edit_capacity = update_reservation.day.capacity - update_reservation.count_person
       # 更新した予約に紐づけした日程のキャパシティーを更新する
       update_reservation.day.update!(capacity: edit_capacity)
-      # redirect_to session[:previous_url]
       redirect_to root_path, notice: '予約日程の変更が完了しました'
     end
   rescue StandardError => e
