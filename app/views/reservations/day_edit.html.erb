@@ -1,6 +1,6 @@
 <h2>予約日程変更フォーム</h2>
 <%= form_with model: @reservation, url: "/day_edit/#{@reservation.id}", local: true do |f| %>
-  <p>予約日 : <%= f.text_field :day_id %></p>
+  <p>予約日 : <%= f.text_field :day_id, required: true %></p>
   <%= f.submit "更新" %>
 <% end %>
 <%= render @days%>

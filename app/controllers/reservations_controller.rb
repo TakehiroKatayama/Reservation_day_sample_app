@@ -16,12 +16,14 @@ class ReservationsController < ApplicationController
       # フォームに入力した予約テーブルに紐づく、daysテーブルのカラム：キャパシティの値を呼び出す - フォームに入力した予約の人数
       seats = @reservation.day.capacity - reservation_params[:count_person].to_i
       # 変更されたshopのcapacityの値を更新
+
       @reservation.day.update!(capacity: seats)
+      # binding.pry
       # redirect_to session[:previous_url]
       redirect_to root_path, notice: '予約が完了しました'
     end
   rescue StandardError => e
-    flash[:alert] = "予約ができませんでした。\n・備考以外空白なく入力してください。\n・来店日は明日以降の定休日以外の日付を入力してください。\n・それでもご予約できない場合は店舗までご連絡下さい。"
+    flash[:alert] = "予約ができませんでした。\n・来店日は明日以降の定休日以外の日付を入力してください。\n・それでもご予約できない場合は��舗までご連絡下さい。"
     redirect_to action: :new
   end
 

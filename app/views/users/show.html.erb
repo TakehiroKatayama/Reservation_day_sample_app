@@ -1,5 +1,6 @@
 <h2>マイページ</h2>
 <p>ユーザーID : <%= current_user.id%></p>
+<p>メール : <%= current_user.email%></p>
 <%= link_to "アカウント編集", edit_user_registration_path %>
 <p>予約履歴一覧</p>
 <% @reservations.each do |reservation| %>

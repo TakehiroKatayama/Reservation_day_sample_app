@@ -1,6 +1,6 @@
 <h2>予約人数変更フォーム</h2>
 <%= form_with model: @reservation, url: "/reservations/#{@reservation.id}", method: :put, local: true do |f| %>
-  <p>来店人数 ： <%= f.text_field :count_person %></p>
+  <p>来店人数 ： <%= f.text_field :count_person, required: true %></p>
   <p>ステータス : <%= f.select :status, Reservation.statuses_i18n.invert %></p>
   <%= f.submit "送信" %>
 <% end %>
